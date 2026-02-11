@@ -11,33 +11,23 @@ Diseñar una aplicación con un menú con el que podamos:
 - Calcular la hora del día en la que más ha llovido en cada provincia
 '''
 
-
-print('''
-1. Añadir la cantidad de lluvia para una provincia, un día y una hora concreta.
-2. Opcionalmente se pueden obtener las cantidades de un fichero.
-3. Mostrar las cantidades de lluvia caídas en una provincia y un día (un dato para cada hora).
-4. Mostrar la provincia con más lluvias en un día concreto.
-5. Mostrar la media de lluvia en un día y una hora.
-6. Dada una provincia listar los días en los que ha llovido
-7. Calcular la hora del día en la que más ha llovido en cada provincia
-8. Salir
-      ''')
+import random
 
 # [provincias[dias[horas]]]
-lluvia = [[[]]]
+lluvia = [[[random.uniform(0.0, 50.0) for _ in range(24)] for _ in range(365)] for _ in range(8)]
 provincias = ["Cadiz", "Malaga", "Huelva", "Sevilla", "Jaen", "Almeria", "Cordoba", "Granada"]
 
 # p provincia, d dias, h  horas
 def anadir_cantidad():
     p = int(input('''Para que provincia:
-                      1. Cadiz
-                      2. Malaga
-                      3. Huelva
-                      4. Sevilla
-                      5. Jaen
-                      6. Almeria
-                      7. Cordoba
-                      8. Granada''')) - 1
+                    1. Cadiz
+                    2. Malaga
+                    3. Huelva
+                    4. Sevilla
+                    5. Jaen
+                    6. Almeria
+                    7. Cordoba
+                    8. Granada''')) - 1
     d = int(input("Para que dia (1-365): ")) - 1
     h =int(input("Para que hora (0-23): "))
     cantidad = float(input("Que cantidad deseas añadir: "))
@@ -46,34 +36,56 @@ def anadir_cantidad():
 
 def mostrar_por_provincia_y_dia(p, d):
     for i in range(len(lluvia[p][d])):
-        print(f"Hora {i}: {lluvia[p][d][i]}", end=", ")
-    print()
+        print(f"{i}h: {lluvia[p][d][i]:.2f}")
 
 def provincia_con_mas_lluvia(d):
     lista = [sum(lluvia[x][d]) for x in range(len(lluvia))]
     maximo = max(lista)
     indice = lista.index(maximo)
-    print(f"La provincia con mas lluvias en el dia {d}, es {provincias[indice]}")
+    print(f"La provincia con mas lluvias en el dia {d+1}, es {provincias[indice]}")
 
 def media_pyh(d, h):
     lista = [lluvia[i][d][h] for i in range(len(lluvia)) ]
     media = sum(lista)/len(lista)
-    print(f"La media del dia {d} a la hora {h} es {media}")
+    print(f"La media del dia {d} a la hora {h} es {media:.2f}")
 
 def dias_llovidos_por_provincia(p):
     ha_llovido = False
-    print("Ha llovido en los dias: ")
+    print("Ha llovido en los dias: ", end="")
     for dias in range(len(lluvia[p])):
         for horas in range(len(lluvia[p][dias])):
             if lluvia[p][dias][horas] > 0.0:
                 ha_llovido = True
-                return
+                break
         if ha_llovido:
-            print(lluvia[p][dias], end=", ")
+            print((dias + 1), end=", ")
             ha_llovido = False
     print()
 
+def dia_mas_lovido_provincia():
+    dia_mayor = 0.0
+    provincia_mayor = 0
+    cantidad = 0.0
+    for p in range(len(lluvia)):
+        for d in range(len(lluvia[p])):
+            if cantidad < sum(lluvia[p][d]):
+                cantidad = sum(lluvia[p][d])
+                dia_mayor = d
+                provincia_mayor = p
+        cantidad = 0.0
+        print(f"El dia que mas ha llovido en {provincias[provincia_mayor]} es {dia_mayor}")
+
 while True:
+    print('''
+    1. Añadir la cantidad de lluvia para una provincia, un día y una hora concreta.
+    2. Opcionalmente se pueden obtener las cantidades de un fichero.
+    3. Mostrar las cantidades de lluvia caídas en una provincia y un día (un dato para cada hora).
+    4. Mostrar la provincia con más lluvias en un día concreto.
+    5. Mostrar la media de lluvia en un día y una hora.
+    6. Dada una provincia listar los días en los que ha llovido
+    7. Calcular la hora del día en la que más ha llovido en cada provincia
+    8. Salir
+        ''')
     opcion = int(input("Elige una opcion: "))
     match opcion:
         case 1:
@@ -85,14 +97,14 @@ while True:
         case 3: 
             # Mostrar las cantidades de lluvia caídas en una provincia y un día (un dato para cada hora).
             p = int(input('''Para que provincia:
-                      1. Cadiz
-                      2. Malaga
-                      3. Huelva
-                      4. Sevilla
-                      5. Jaen
-                      6. Almeria
-                      7. Cordoba
-                      8. Granada''')) - 1
+                    1. Cadiz
+                    2. Malaga
+                    3. Huelva
+                    4. Sevilla
+                    5. Jaen
+                    6. Almeria
+                    7. Cordoba
+                    8. Granada''')) - 1
             d = int(input("Para que dia (1-365): ")) - 1
             mostrar_por_provincia_y_dia(p, d)
         case 4:
@@ -108,18 +120,18 @@ while True:
         case 6: 
             # Dada una provincia listar los días en los que ha llovido
             p = int(input('''Para que provincia:
-                      1. Cadiz
-                      2. Malaga
-                      3. Huelva
-                      4. Sevilla
-                      5. Jaen
-                      6. Almeria
-                      7. Cordoba
-                      8. Granada''')) - 1
+                    1. Cadiz
+                    2. Malaga
+                    3. Huelva
+                    4. Sevilla
+                    5. Jaen
+                    6. Almeria
+                    7. Cordoba
+                    8. Granada''')) - 1
             dias_llovidos_por_provincia(p)
         case 7: 
             # Calcular la hora del día en la que más ha llovido en cada provincia
-            pass
+            dia_mas_lovido_provincia()
         case 8: 
             break
         case _:
