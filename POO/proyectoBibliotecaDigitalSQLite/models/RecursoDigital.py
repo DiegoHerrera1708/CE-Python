@@ -1,11 +1,10 @@
 from abc import ABC, abstractmethod
+from typing import Dict, Any
 
 class RecursoDigital(ABC):
-    _contador_id = 1    # Variable de clase 
+    _contador_id = 1    
 
     def __init__(self, id, titulo, autor, anio):
-        #self.__id = RecursoDigital._contador_id
-        #RecursoDigital._contador_id += 1
         self.__id = None
         self.__titulo = None
         self.__autor = None
@@ -17,16 +16,16 @@ class RecursoDigital(ABC):
         self.autor = autor
         self.anio = anio
 
-    # ----- id (read only) ----
     @property
     def id(self):
         return self.__id
+    
     @id.setter
     def id(self, nuevo_id):
         if not nuevo_id or not isinstance(nuevo_id, int):
-            raise ValueError("El id debería ser un número entero")
+            raise ValueError("El id deber ser un número entero")
         self.__id = nuevo_id
-    # ----- título -----
+    
     @property
     def titulo(self):
         return self.__titulo
@@ -37,7 +36,6 @@ class RecursoDigital(ABC):
             raise ValueError("El título debe ser un texto no vacío")
         self.__titulo = nuevo_titulo
 
-    # ---- autor ----
     @property
     def autor(self):
         return self.__autor
@@ -71,3 +69,32 @@ class RecursoDigital(ABC):
 
     def __str__(self):
         return f"[{self.id}] ({self.tipo()}) {self.descripcion_basica()}"
+    
+    #Convierte la instancia de esta clase en una estructura Dict.
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "tipo": self.tipo(),
+            "id": self.__id,
+            "titulo": self.titulo,
+            "autor": self.autor,
+            "anio": self.anio
+        }
+    
+    #Convierte una estructura Dict en una instancia de la presente clase
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> "RecursoDigital":
+        from models import LibroDigital, VideoCurso, Podcast
+
+        tipo = data["tipo"]
+
+        if tipo == "Libro":
+            return LibroDigital.from_dict(data)
+        elif tipo == "Video":
+            return VideoCurso.from_dict(data)
+        elif tipo == "Podcast":
+            return Podcast.from_dict(data)
+        else:
+            raise ValueError("Tipo desconocido")
+
+
+
