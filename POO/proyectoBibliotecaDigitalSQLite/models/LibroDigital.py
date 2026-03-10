@@ -44,6 +44,7 @@ class LibroDigital(RecursoDigital):
     def isbn(self, isbn):
         if not isbn or not isinstance(isbn, str):
             raise ValueError("El ISBN debe ser un cadena de caracteres")
+        self.__isbn = isbn
 
     def abrir(self):
         return f"Abriendo libro '{self.titulo}' en formato {self.formato}..."
@@ -73,7 +74,7 @@ class LibroDigital(RecursoDigital):
             titulo=str(data["titulo"]),
             autor=str(data["autor"]),
             anio=int(data["anio"]),
-            num_paginas=int(data["num_paginas"]),
+            num_paginas=int(data["num_pagina"]),
             formato=str(data["formato"]),
             isbn=str(data["isbn"])
         )

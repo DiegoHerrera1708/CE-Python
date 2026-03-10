@@ -57,6 +57,6 @@ class Podcast(RecursoDigital):
             titulo=str(data["titulo"]),
             autor=str(data["autor"]),
             anio=int(data["anio"]),
-            episodio=int(data["episodio"]),
+            episodio=int(data["episodios"]),
             url=str(data["url"])
         )

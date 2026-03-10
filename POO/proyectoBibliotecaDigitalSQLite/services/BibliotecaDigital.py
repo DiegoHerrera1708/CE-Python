@@ -11,8 +11,7 @@ class BibliotecaDigital:
         self.__recursos.append(recurso)
 
     def listar_recursos(self) -> List[RecursoDigital]:
-        for recurso in self.__recursos:
-            print (recurso)
+        return self.__recursos
 
     def abrir_todos(self) -> None:
         print("=== Abriendo todos los recursos ===")

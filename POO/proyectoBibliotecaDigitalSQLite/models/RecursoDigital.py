@@ -89,7 +89,7 @@ class RecursoDigital(ABC):
 
         if tipo == "Libro":
             return LibroDigital.from_dict(data)
-        elif tipo == "Video":
+        elif tipo == "Vídeo":
             return VideoCurso.from_dict(data)
         elif tipo == "Podcast":
             return Podcast.from_dict(data)

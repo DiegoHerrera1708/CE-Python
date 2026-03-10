@@ -45,7 +45,7 @@ def init_db(db_path: str) -> None:
 
 
 def cargar_recursos(db_path: str) -> List[RecursoDigital]:
-    # init_db(db_path)
+    #init_db(db_path)
 
     with _connect(db_path) as conn:
         rows = conn.execute("SELECT * FROM recursos ORDER BY id ASC").fetchall()
