@@ -12,8 +12,8 @@ def mostrar_menu() -> None:
     print("1. Listar Recursos")
     print("2. Añadir recursos")
     print("3. Borrar recurso")
-    print("4. Guardar en la base de datos")
-    print("5. Cargar desde la base de datos (reemplaza la lista actual)")
+    #print("4. Guardar en la base de datos")
+    #print("5. Cargar desde la base de datos (reemplaza la lista actual)")
     print("6. Salir")
 
 #2 Listar recursos
@@ -69,6 +69,27 @@ def crear_recurso_desde_teclado() -> RecursoDigital :
         return Podcast(id=None, titulo=titulo, autor=autor, anio=anio,
                        episodio=episodio, url=url)
 
+def borrar_recurso(biblioteca: BibliotecaDigital) -> None:
+    recursos = biblioteca.listar_recursos()
+    if not recursos:
+        print("No hay recursos para borrar.")
+        return
+
+    print("\n---BORRAR RECURSO---")
+    for recurso in recursos:
+        print(recurso)
+
+    try:
+        id_borrar = int(input("Ingresa el ID del recurso a borrar: ").strip())
+    except ValueError:
+        print("ID no válido. Debe ser un número entero.")
+        return
+
+    if biblioteca.borrar_recurso(id_borrar):
+        print(f"Recurso con ID {id_borrar} borrado correctamente.")
+    else:
+        print(f"No se encontró ningún recurso con ID {id_borrar}.")
+
 def main() -> None:
     #1 Crear esquema si no existe
     init_db(RUTA_DB)
@@ -86,13 +107,13 @@ def main() -> None:
             case "2":
                 anadir_recurso(biblioteca)
             case "3":
-                pass
-            case "4":
-               pass
-            case "5":
-                recursos = cargar_recursos(RUTA_DB)
-                biblioteca.reemplazar_todos(recursos)
-                print(f"Cargados {len(biblioteca.listar_recursos())} recursos desde la base de datos.")
+                borrar_recurso(biblioteca)
+            # case "4":
+            #    pass
+            # case "5":
+            #     recursos = cargar_recursos(RUTA_DB)
+            #     biblioteca.reemplazar_todos(recursos)
+            #     print(f"Cargados {len(biblioteca.listar_recursos())} recursos desde la base de datos.")
             case "6":
                 print("Saliendo...")
                 break
