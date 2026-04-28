@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Crear Jugador{% endblock %}
+
+{% block content %}
+    <h2>Crear Nuevo Jugador</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Crear Jugador</button>
+    </form>
+{% endblock %}

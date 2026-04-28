@@ -1,0 +1,10 @@
+{% for jugador in jugadores %}
+    <p>{{ jugador.nombre }} - {{ jugador.posicion }} - {{ jugador.equipo.nombre }} 
+        <button><a href="{% url 'info_jugadores' jugador.id %}">Información</a></button>
+        <button><a href="{% url 'edit_jugador' jugador.id %}">Editar</a></button>
+        <button><a href="{% url 'delete_jugador' jugador.id %}">Eliminar</a></button>
+    </p>
+    
+{% endfor %}
+
+<button><a href="{% url 'create_jugador' %}">Crear Nuevo Jugador</a></button>
